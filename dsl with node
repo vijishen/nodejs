@@ -1,7 +1,7 @@
 
    job('NodeJS example') {
     scm {
-        git('git://github.com/wardviaene/docker-demo.git') 
+        git('https://github.com/vijishen/nodejs.git') 
            
         }
     }
