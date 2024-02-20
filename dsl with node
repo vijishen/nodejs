@@ -1,18 +1,29 @@
-
-   job('NodeJS example') {
-    scm {
-        git('https://github.com/vijishen/nodejs.git') 
-           
+pipeline{
+    agent any
+    tools {nodejs "Node"}
+    stages {
+        stage('Clone Repository'){
+            steps{
+                git branch: 'main',
+                    url: 'https://github.com/MIRTAHAALI/express_server_for_flutter_app_testing.git'
+            }
         }
-    }
-    triggers {
-        scm('H/5 * * * *')
-    }
-    wrappers {
-        nodejs('nodejs') // this is the name of the NodeJS installation in 
-                         // Manage Jenkins -> Configure Tools -> NodeJS Installations -> Name
-    }
-    steps {
-        shell("npm install")
+        
+        stage('Install Dependencies'){
+            steps {
+                bat 'npm install'
+            }
+        }
+         stage('Install pm2'){
+            steps {
+                bat 'npm install pm2 -g'
+            }
+        }
+        
+        stage('Deploy'){
+            steps {
+                bat 'pm2 startOrRestart pm2.config.json'
+            }
+        }
     }
 }
